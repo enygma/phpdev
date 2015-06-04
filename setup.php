@@ -30,7 +30,6 @@ $view->parserOptions = array(
 );
 
 $app->error(function (\Exception $e) use ($app, $view) {
-    error_log('in error handler');
     $view->render('error/error.php', array('message' => $e->getMessage()));
 });
 
@@ -38,7 +37,7 @@ $app->error(function (\Exception $e) use ($app, $view) {
 $di = new Container();
 $di['db'] = function()
 {
-	$dsn = 'mysql:host=127.0.0.1;dbname=phpdev';
+	$dsn = 'mysql:host=127.0.0.1;dbname=phpdev;charset=UTF8';
     return new \PDO($dsn, 'phpdev', 'phpdev42');
 };
 
@@ -54,7 +53,12 @@ $di['user'] = function($di)
 {
     $user = $di['session']->getSegment('default')->get('user');
     if ($user !== null) {
-        $user = \Psecio\Gatekeeper\Gatekeeper::findUserById($user['id']);
+        try {
+            $user = \Psecio\Gatekeeper\Gatekeeper::findUserById($user['id']);
+        } catch (\Exception $e) {
+            // do nothing for now...
+        }
+
     }
     return $user;
 };
