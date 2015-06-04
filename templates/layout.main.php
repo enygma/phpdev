@@ -50,7 +50,7 @@
 					{% for item in archive %}
 					<div style="margin-bottom:5px">
 					<img src="/img/layout/gray_arrows.gif"/>
-					<a class="sidelink" href="/news/22661">{{ item.title }}</a>
+					<a class="sidelink" href="/news/{{ item.id }}">{{ item.title }}</a>
 					</div>
 					{% endfor %}
 				</div>
