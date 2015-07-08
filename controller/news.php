@@ -24,6 +24,23 @@ $app->group('/news', function() use ($app, $view) {
 		echo $view->render('news/view.php', array(
 			'item' => $renderedNews
 		));
+	})->conditions(array('id' => '[0-9]+'));
+
+	$app->get('/submit', function() use ($app, $view) {
+		echo $view->render('news/submit.php');
+	});
+	$app->post('/submit', function() use ($app, $view) {
+		$data = $app->request->post();
+
+		// Send the email with the content
+		$subject = 'News Submission: '.$data['title'];
+		$body = 'From: '.$data['name']."\n\nStory:\n".$data['story']."\n\n";
+
+		mail('enygma@phpdeveloper.org', $subject, $body, "From: commentMonitor@phpdeveloper.org\r\n");
+		echo $view->render(
+			'news/submit.php',
+			array('success' => true)
+		);
 	});
 
 	$app->get('/add', function() use ($app, $view) {
