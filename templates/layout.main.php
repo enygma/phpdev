@@ -4,8 +4,8 @@
 <head>
 	<title>PHPDeveloper: PHP News, Views and Community</title>
 	<link href='http://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="/css/site.css" type="text/css" />
 	<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+	<link rel="stylesheet" href="/css/site.css" type="text/css" />
 	<script src="/js/jquery.js" type="text/javascript"></script>
 	<script src="/js/site.js" type="text/javascript"></script>
 	<script src="/js/bootstrap.min.js" type="text/javascript"></script>

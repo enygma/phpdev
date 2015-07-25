@@ -12,6 +12,7 @@ span.req_star {
 	font-weight: bold;
 	color: #D20000;
 }
+a { text-decoration: underline; }
 #layout td.topbar {
 	background: #FFFFFF url('/img/layout/logo-bg3.gif') repeat-x top left;
 	font-size: 10px;
