@@ -14,7 +14,7 @@ class Cache
 	 * Set a timeout in seconds
 	 * @var integer
 	 */
-	private $timeout = 3600;
+	private $timeout = 1200;
 
 	public function __construct($timeout = null)
 	{
