@@ -3,23 +3,30 @@
 $app->group('/news', function() use ($app, $view) {
 
 	$app->get('/:id', function($itemId) use ($app, $view) {
-		$news = new \Phpdev\Model\News($app->di['db']);
-		$news->findById($itemId);
-		$pending = ($news->date <= time()) ? false : true;
-		$news->addViewCount();
+		$newsData = $app->di['cache']->get('news:'.$itemId);
 
-		$data = array(
-			'news' => $news,
-			'tags' => $news->tags->toArray(true),
-			'pending' => $pending
-		);
-		$user = $app->di['user'];
-		if ($user !== null && $user->inGroup('admin')) {
-			$data['admin'] = true;
+		if ($newsData === null) {
+			$news = new \Phpdev\Model\News($app->di['db']);
+			$news->findById($itemId);
+			$pending = ($news->date <= time()) ? false : true;
+			$news->addViewCount();
+
+			$data = array(
+				'news' => $news,
+				'tags' => $news->tags->toArray(true),
+				'pending' => $pending
+			);
+			$user = $app->di['user'];
+			if ($user !== null && $user->inGroup('admin')) {
+				$data['admin'] = true;
+			}
+
+			$itemView = new \Phpdev\View\NewsItemView();
+			$renderedNews = $itemView->render('news/_item.php', $data);
+			$app->di['cache']->set('news:'.$itemId, $renderedNews);
+		} else {
+			$renderedNews = $newsData;
 		}
-
-		$itemView = new \Phpdev\View\NewsItemView();
-		$renderedNews = $itemView->render('news/_item.php', $data);
 
 		echo $view->render('news/view.php', array(
 			'item' => $renderedNews

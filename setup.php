@@ -63,5 +63,10 @@ $di['user'] = function($di)
     return $user;
 };
 
+$di['cache'] = function()
+{
+    return new \Phpdev\Cache();
+};
+
 $app->di = $di;
 $view->di = $di;

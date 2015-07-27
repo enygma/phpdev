@@ -21,8 +21,15 @@ $app->group('/', function() use ($app, $view) {
 	}
 
 	$app->get('/', function() use ($app, $view) {
-		$news = new \Phpdev\Collection\News($app->di['db']);
-		$news->findLatest();
+		$newsLatest = $app->di['cache']->get('news:latest');
+
+		if ($newsLatest === null) {
+			$news = new \Phpdev\Collection\News($app->di['db']);
+			$news->findLatest();
+			$app->di['cache']->set('news:latest', $news);
+		} else {
+			$news = $newsLatest;
+		}
 
 		echo renderNews($news, $view);
 	});

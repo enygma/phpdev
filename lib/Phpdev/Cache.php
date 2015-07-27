@@ -63,6 +63,10 @@ class Cache
 	 */
 	public function set($key, $value)
 	{
+		if (is_object($value)) {
+			$value = $value->serialize();
+		}
+
 		$file = $this->buildFilename($key);
 		file_put_contents($file, serialize($value));
 	}

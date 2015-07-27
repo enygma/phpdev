@@ -21,6 +21,14 @@ class Mysql extends \Modler\Collection
 		return (get_class($this->db) == 'PDO') ? $this->db : $this->db['db'];
 	}
 
+    /**
+     * Perform actions to allow for serilization of instance
+     */
+    public function serialize()
+    {
+        $this->db = null;
+    }
+
 	/**
      * Fetch the data matching the results of the SQL operation
      *

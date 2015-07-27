@@ -50,6 +50,14 @@ class Mysql extends \Modler\Model
     }
 
     /**
+     * Perform actions to allow for serilization of instance
+     */
+    public function serialize()
+    {
+        $this->db = null;
+    }
+
+    /**
      * Get the current model's table name
      *
      * @return string Table name
