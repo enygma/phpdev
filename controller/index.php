@@ -27,11 +27,12 @@ $app->group('/', function() use ($app, $view) {
 			$news = new \Phpdev\Collection\News($app->di['db']);
 			$news->findLatest();
 			$app->di['cache']->set('news:latest', $news);
-		} else {
-			$news = $newsLatest;
+			$newsLatest = renderNews($news, $view);
+
+			$app->di['cache']->set('news:latest', $newsLatest);
 		}
 
-		echo renderNews($news, $view);
+		echo $newsLatest;
 	});
 });
 
