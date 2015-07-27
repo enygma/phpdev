@@ -17,7 +17,7 @@ $app->group('/news', function() use ($app, $view) {
 				'pending' => $pending
 			);
 			$user = $app->di['user'];
-			if ($user !== null && $user->inGroup('admin')) {
+			if ($user !== null && $user->inGroup(1)) {
 				$data['admin'] = true;
 			}
 
