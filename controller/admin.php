@@ -53,7 +53,7 @@ $app->group('/admin', function() use ($app, $view) {
 	$app->get('/', function() use ($app, $view) {
 
 		$user = $app->di['user'];
-		if ($user == null || !$user->inGroup(1)) {
+		if ($user == null || !$user->inGroup('admin')) {
 			$app->di['session']->getSegment('default')->setFlash('error', 'Not allowed!');
 			$app->redirect('/error');
 		}
@@ -63,7 +63,7 @@ $app->group('/admin', function() use ($app, $view) {
 
 	$app->get('/news/add', function() use ($app, $view) {
 		$user = $app->di['user'];
-		if ($user == null || !$user->inGroup(1)) {
+		if ($user == null || !$user->inGroup('admin')) {
 			$app->di['session']->getSegment('default')->setFlash('error', 'Not allowed!');
 			$app->redirect('/error');
 		}
@@ -85,7 +85,7 @@ $app->group('/admin', function() use ($app, $view) {
 	// @todo fix the author for logged in user
 	$app->post('/news/add', function() use ($app, $view) {
 		$user = $app->di['user'];
-		if ($user == null || !$user->inGroup(1)) {
+		if ($user == null || !$user->inGroup('admin')) {
 			$app->di['session']->getSegment('default')->setFlash('error', 'Not allowed!');
 			$app->redirect('/error');
 		}
@@ -125,7 +125,7 @@ $app->group('/admin', function() use ($app, $view) {
 
 	$app->get('/news/edit/:id', function($newsId) use ($app, $view) {
 		$user = $app->di['user'];
-		if ($user == null || !$user->inGroup(1)) {
+		if ($user == null || !$user->inGroup('admin')) {
 			$app->di['session']->getSegment('default')->setFlash('error', 'Not allowed!');
 			$app->redirect('/error');
 		}
