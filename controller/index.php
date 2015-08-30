@@ -4,16 +4,21 @@ use \Psecio\Gatekeeper\Gatekeeper as g;
 
 $app->group('/', function() use ($app, $view) {
 
-	function renderNews($news, $view)
+	function renderNews($news, $view, $app)
 	{
 		$newsRendered = '';
-		$itemView = new \Phpdev\View\NewsItemView();
-		foreach ($news as $item) {
-			$newsRendered .= $itemView->render('news/_item.php', array(
-				'news' => $item,
-				'tags' => $item->tags->toArray(true)
-			));
-		}
+        $newsRendered = $app->di['cache']->get('news:latest:index');
+
+        if ($newsRendered === null) {
+		    $itemView = new \Phpdev\View\NewsItemView();
+		    foreach ($news as $item) {
+			    $newsRendered .= $itemView->render('news/_item.php', array(
+				    'news' => $item,
+			    	'tags' => $item->tags->toArray(true)
+			    ));
+		    }
+            $app->di['cache']->set('news:latest:index', $newsRendered);
+        }
 
 	    return $view->render('index/index.php', array(
 	    	'news' => $newsRendered
@@ -21,16 +26,10 @@ $app->group('/', function() use ($app, $view) {
 	}
 
 	$app->get('/', function() use ($app, $view) {
-		$newsLatest = $app->di['cache']->get('news:latest');
-
-		if ($newsLatest === null) {
 			$news = new \Phpdev\Collection\News($app->di['db']);
 			$news->findLatest();
 			$app->di['cache']->set('news:latest', $news);
-			$newsLatest = renderNews($news, $view);
-
-			$app->di['cache']->set('news:latest', $newsLatest);
-		}
+			$newsLatest = renderNews($news, $view, $app);
 
 		echo $newsLatest;
 	});
