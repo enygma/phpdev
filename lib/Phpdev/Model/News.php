@@ -97,9 +97,10 @@ class News extends \Phpdev\Model\Mysql
 	 *
 	 * @return boolean Success/fail of query execute
 	 */
-	public function addViewCount()
+	public function addViewCount($itemId = null)
     {
+        $id = ($itemId !== null) ? $itemId : $this->id;
         $sql = 'update news set views = views + 1 where id = :id';
-        return $this->execute($sql, array('id' => $this->id));
+        return $this->execute($sql, array('id' => $id));
     }
 }
