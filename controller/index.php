@@ -57,11 +57,21 @@ $app->get('/contact', function() use ($app, $view) {
 	echo $view->render('index/contact.php');
 });
 
-$app->get('/archive(/:pageId)', function($pageId = 1) use ($app, $view) {
+$app->get('/archive(/:pageId)', function($pageId = 0) use ($app, $view) {
 
 	$newsItems = array();
 	$news = new \Phpdev\Collection\News($app->di['db']);
-	$news->findLatest(100);
+	// $news->findLatest(100);
+
+	// Our page # corresponds to a week, 0 being this week
+	if ($pageId == 0) {
+		$end = time();
+		$start = strtotime('-1 week');
+	} else {
+		$end = strtotime('-'.$pageId.' week');
+		$start = strtotime('-'.($pageId + 1).' week');
+	}
+	$news->findDateRange($start, $end);
 
 	$news = $news->toArray(true);
 	// Break them up into days
@@ -74,9 +84,16 @@ $app->get('/archive(/:pageId)', function($pageId = 1) use ($app, $view) {
 		}
 	}
 
-	echo $view->render('index/archive.php', array(
-		'news' => $newsItems
-	));
+	$data = [
+		'news' => $newsItems,
+		'pageId' => $pageId,
+		'nextPage' => ($pageId + 1),
+		'prevPage' => 0
+	];
+	if (($pageId - 1) >= 0) {
+		$data['prevPage'] = $pageId - 1;
+	}
+	echo $view->render('index/archive.php', $data);
 });
 
 $app->get('/error', function() use ($app, $view) {

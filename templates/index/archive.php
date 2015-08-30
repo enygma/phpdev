@@ -2,6 +2,13 @@
 
 {% block content %}
 
+{% if prevPage == 0 %}
+<a href="/archive">Previous Page</a> ||&nbsp;
+{% else %}
+<a href="/archive/{{ prevPage }}">Previous Page</a> ||&nbsp;
+{% endif %}
+<a href="/archive/{{ nextPage }}">Next Page</a>
+
 <table cellpadding="0" cellspacing="0" border="0" id="archive_table">
 {% for date,day in news %}
 	<tr>
@@ -18,5 +25,13 @@
 {% endfor %}
 </table>
 <br/>
+
+{% if prevPage == 0 %}
+<a href="/archive">Previous Page</a> ||&nbsp;
+{% else %}
+<a href="/archive/{{ prevPage }}">Previous Page</a> ||&nbsp;
+{% endif %}
+<a href="/archive/{{ nextPage }}">Next Page</a>
+
 
 {% endblock %}
