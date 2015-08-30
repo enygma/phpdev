@@ -31,7 +31,8 @@ $app->group('/admin', function() use ($app, $view) {
 			} else {
 				// Validation is good - save!
 				$success = $item->save();
-				$message .= ' <a href="/news/'.$item->id.'">Click here</a> to view.';
+				$message .= ' <a href="/news/'.$item->id.'">Click here</a> to view or'
+                    .' <a href="/admin/news/add">here to add more</a>.';
 			}
 		} catch (\Exception $e) {
 			$success = false;
