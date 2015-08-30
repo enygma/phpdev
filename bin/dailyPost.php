@@ -43,8 +43,8 @@ $types = array(
 $dsn = 'mysql:host=127.0.0.1;dbname=phpdev';
 $pdo = new \PDO($dsn, 'phpdev', 'phpdev42');
 
-// $type = $types[date('N')];
-$type = $types[1];
+$type = $types[date('N')];
+//$type = $types[1];
 $story = '';
 $data = array();
 
