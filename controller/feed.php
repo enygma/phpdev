@@ -1,4 +1,5 @@
 <?php
+use League\CommonMark\CommonMarkConverter;
 
 $app->group('/feed', function() use ($app, $view) {
 
@@ -14,6 +15,13 @@ $app->group('/feed', function() use ($app, $view) {
 		} else {
 			$news = $feedData;
 		}
+
+        $converter = new CommonMarkConverter();
+        foreach ($news as $index => $item) {
+            $news[$index]['story'] = (isset($news[$index]['story'])) ? stripslashes($news[$index]['story']) : '';
+            $news[$index]['story'] = $converter->convertToHtml($news[$index]['story']);
+            //$news[$index]['story'] = strip_tags($news[$index]['story']);
+        }
 
 	    echo $view->render('feed/index.php', array(
 	    	'news' => $news
