@@ -14,7 +14,7 @@ class Cache
 	 * Set a timeout in seconds
 	 * @var integer
 	 */
-	private $timeout = 1200;
+	private $timeout = 3600;
 
 	public function __construct($timeout = null)
 	{
@@ -46,7 +46,7 @@ class Cache
 		if (is_file($file)) {
 			// Check the file time versus the timeout
 			$mtime = filemtime($file);
-			if ($mtime >= time()-$this->timeout) {
+			if ($mtime <= time()-$this->timeout) {
 				$this->delete($key);
 				return null;
 			}
