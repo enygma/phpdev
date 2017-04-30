@@ -23,6 +23,7 @@ class TemplateView extends \Slim\Views\Twig
 			$data['tagcloud'] = $view->render('index/tagcloud.php', array(
 		    	'tags' => $tags->toArray(true)
 		    ));
+			$this->di['cache']->set('news:popular', $data['tagcloud']);
 		} else {
 			$data['tagcloud'] = $popularNews;
 		}
